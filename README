@@ -1,0 +1,3 @@
+URLs:
+HTTP - [context-path]/http
+SMPP - [context-path]/smpp
