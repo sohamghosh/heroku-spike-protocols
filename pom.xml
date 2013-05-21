@@ -52,7 +52,7 @@
     </dependencies>
 
     <build>
-        <finalName>spike-tomcat</finalName>
+        <finalName>spike-protocols</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
