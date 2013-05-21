@@ -39,7 +39,7 @@
         </dependency>
 
         <!-- SMPP -->
-        <!--<dependency>
+        <dependency>
             <groupId>org.smslib</groupId>
             <artifactId>smslib-patched</artifactId>
             <version>3.5.1</version>
@@ -48,7 +48,7 @@
             <groupId>com.googlecode.jsmpp</groupId>
             <artifactId>jsmpp-for-smslib</artifactId>
             <version>2.1.0</version>
-        </dependency>-->
+        </dependency>
     </dependencies>
 
     <build>
@@ -87,5 +87,11 @@
         </plugins>
     </build>
 
-    
+    <repositories>
+        <repository>
+            <id>motech-repo</id>
+            <name>MOTECH Maven Repository</name>
+            <url>http://nexus.motechproject.org/content/repositories/public</url>
+        </repository>
+    </repositories>
 </project>
