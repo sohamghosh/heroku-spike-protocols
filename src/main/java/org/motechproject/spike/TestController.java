@@ -7,6 +7,7 @@ import org.smslib.AGateway;
 import org.smslib.IOutboundMessageNotification;
 import org.smslib.OutboundMessage;
 import org.smslib.Service;
+import org.smslib.smpp.BindAttributes;
 import org.smslib.smpp.jsmpp.JSMPPGateway;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,20 +31,26 @@ public class TestController {
     @ResponseBody
     @RequestMapping("/smpp")
     private String smpp() throws Exception {
-        Service service = Service.getInstance();
+        final String gatewayId = "smpp_gateway";
+        final BindAttributes bindAttributes = new BindAttributes("motech", "motech", null, BindAttributes.BindType.TRANSCEIVER);
+
+        JSMPPGateway jsmppGateway = new JSMPPGateway(gatewayId, "localhost", 2775, bindAttributes);
+
+        final Service service = Service.getInstance();
+        service.addGateway(jsmppGateway);
+        service.startService();
+
         service.setOutboundMessageNotification(new IOutboundMessageNotification() {
             @Override
             public void process(AGateway aGateway, OutboundMessage outboundMessage) {
                 System.out.println("Outbound message notification. " + outboundMessage);
+                try {
+                    service.stopService();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
-        service.startService();
-
-        final String gatewayId = "smpp_gateway";
-        JSMPPGateway jsmppGateway = new JSMPPGateway(gatewayId, "localhost", 2775, null);
-        //jsmppGateway.setSourceAddress(jsmppMapper.getSourceAddress());
-        //jsmppGateway.setDestinationAddress(jsmppMapper.getDestinationAddress());
-        service.addGateway(jsmppGateway);
 
         OutboundMessage outboundMessage = new OutboundMessage();
         outboundMessage.setRecipient("12345");
@@ -51,8 +58,6 @@ public class TestController {
         outboundMessage.setGatewayId(gatewayId);
 
         service.queueMessage(outboundMessage);
-
-        //service.stopService();
 
         return "SMS sent over SMPP.";
     }

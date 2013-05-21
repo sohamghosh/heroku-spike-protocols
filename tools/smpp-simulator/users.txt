@@ -1,0 +1,3 @@
+name=motech
+password=motech
+timeout=unlimited
