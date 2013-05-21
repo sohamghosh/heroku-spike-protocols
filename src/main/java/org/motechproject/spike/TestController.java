@@ -3,11 +3,6 @@ package org.motechproject.spike;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.smslib.AGateway;
-import org.smslib.IOutboundMessageNotification;
-import org.smslib.OutboundMessage;
-import org.smslib.Service;
-import org.smslib.smpp.jsmpp.JSMPPGateway;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,7 +22,7 @@ public class TestController {
         return "HTTP status code: " + responseCode;
     }
 
-    @ResponseBody
+    /*@ResponseBody
     @RequestMapping("/smpp")
     private String smpp() throws Exception {
         Service service = Service.getInstance();
@@ -55,9 +50,9 @@ public class TestController {
         //service.stopService();
 
         return "SMS sent over SMPP.";
-    }
+    }*/
 
     public static void main(String[] args) throws Exception {
-        System.out.println(new TestController().smpp());
+        System.out.println(new TestController().http());
     }
 }
