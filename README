@@ -1,3 +1,6 @@
 URLs:
 HTTP - [context-path]/http
 SMPP - [context-path]/smpp
+
+SMPP simulator:
+java -cp smpp.jar:smscsim.jar com.logica.smscsim.Simulator
