@@ -19,6 +19,10 @@ public class SmppService {
 
     @Autowired
     public SmppService(Properties smppProperties) throws Exception {
+        final String enabled = smppProperties.getProperty("smpp.enabled");
+        if(!Boolean.valueOf(enabled)){
+            return;
+        }
         final String name = smppProperties.getProperty("smpp.name");
         final String password = smppProperties.getProperty("smpp.password");
         final String host = smppProperties.getProperty("smpp.host");
