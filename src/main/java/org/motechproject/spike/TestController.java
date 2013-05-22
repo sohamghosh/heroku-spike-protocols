@@ -20,6 +20,9 @@ public class TestController {
     @ResponseBody
     @RequestMapping("/smpp")
     public String smpp() throws Exception {
+        if (smppService.isEnabled()) {
+            return "SMPP is not enabled. Refer to readme.";
+        }
         smppService.sendMessage();
         return "SMS sent over SMPP.";
     }

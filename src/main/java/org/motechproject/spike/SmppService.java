@@ -16,11 +16,13 @@ public class SmppService {
     private static final String GATEWAY_ID = "SMPP_GATEWAY_ID";
 
     private Service service;
+    private boolean enabled;
 
     @Autowired
     public SmppService(Properties smppProperties) throws Exception {
         final String enabled = smppProperties.getProperty("smpp.enabled");
-        if(!Boolean.valueOf(enabled)){
+        this.enabled = Boolean.valueOf(enabled);
+        if(!this.enabled){
             return;
         }
         final String name = smppProperties.getProperty("smpp.name");
@@ -48,5 +50,9 @@ public class SmppService {
         outboundMessage.setGatewayId(GATEWAY_ID);
 
         service.queueMessage(outboundMessage);
+    }
+
+    public boolean isEnabled() {
+        return enabled;
     }
 }
