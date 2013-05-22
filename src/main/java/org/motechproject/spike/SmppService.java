@@ -13,40 +13,35 @@ import java.util.Properties;
 
 @Component
 public class SmppService {
+    private static final String GATEWAY_ID = "SMPP_GATEWAY_ID";
+
+    private Service service;
 
     @Autowired
-    private Properties smppProperties;
-
-    public void sendMessage() throws Exception {
-        final String gatewayId = "SMPP_GATEWAY";
+    public SmppService(Properties smppProperties) throws Exception {
         final String name = smppProperties.getProperty("smpp.name");
         final String password = smppProperties.getProperty("smpp.password");
         final String host = smppProperties.getProperty("smpp.host");
         final int port = Integer.valueOf(smppProperties.getProperty("smpp.port"));
         final BindAttributes bindAttributes = new BindAttributes(name, password, null, BindAttributes.BindType.TRANSCEIVER);
 
-        JSMPPGateway jsmppGateway = new JSMPPGateway(gatewayId, host, port, bindAttributes);
-
-        final Service service = Service.getInstance();
-        service.addGateway(jsmppGateway);
-        service.startService();
+        service = Service.getInstance();
+        service.addGateway(new JSMPPGateway(GATEWAY_ID, host, port, bindAttributes));
 
         service.setOutboundMessageNotification(new IOutboundMessageNotification() {
             @Override
             public void process(AGateway aGateway, OutboundMessage outboundMessage) {
                 System.out.println("Outbound message notification. " + outboundMessage);
-                try {
-                    service.stopService();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
         });
+        service.startService();
+    }
 
+    public void sendMessage() throws Exception {
         OutboundMessage outboundMessage = new OutboundMessage();
         outboundMessage.setRecipient("12345");
         outboundMessage.setText("Hola Mundo...");
-        outboundMessage.setGatewayId(gatewayId);
+        outboundMessage.setGatewayId(GATEWAY_ID);
 
         service.queueMessage(outboundMessage);
     }

@@ -10,7 +10,7 @@
     <mvc:annotation-driven/>
     <context:annotation-config/>
 
-    <context:component-scan base-package="org.motechproject.spike">
+    <context:component-scan base-package="org.motechproject.spike" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
     </context:component-scan>
 

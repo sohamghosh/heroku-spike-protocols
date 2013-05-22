@@ -19,14 +19,14 @@ public class TestController {
 
     @ResponseBody
     @RequestMapping("/smpp")
-    private String smpp() throws Exception {
+    public String smpp() throws Exception {
         smppService.sendMessage();
         return "SMS sent over SMPP.";
     }
 
     @ResponseBody
     @RequestMapping("/http")
-    private String http() throws IOException {
+    public String http() throws IOException {
         HttpClient client = new HttpClient();
         HttpMethod method = new GetMethod("http://www.google.com");
         final int responseCode = client.executeMethod(method);
